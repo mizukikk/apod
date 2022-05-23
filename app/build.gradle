@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -56,6 +57,10 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
@@ -83,4 +88,9 @@ dependencies {
 
     //coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'
+
+    //room sqlite db https://developer.android.com/jetpack/androidx/releases/room?gclid=CjwKCAjw4ayUBhA4EiwATWyBrhii8VPdInykeGTxuYDWzNf2Dtq8gYdzEHCBuJAsXAZKi8eWJpm_-hoCblEQAvD_BwE&gclsrc=aw.ds
+    def room_version = "2.4.2"
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
 }
