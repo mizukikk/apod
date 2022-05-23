@@ -4,9 +4,11 @@ import androidx.room.Room
 import com.example.apod.BuildConfig
 import com.example.apod.api.NetworkService
 import com.example.apod.db.ApodDatabase
+import com.example.apod.main.apod.viewmodel.ApodViewModel
 import com.example.apod.repository.ApodRepository
 import com.example.apod.repository.IApodRepository
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 
@@ -33,5 +35,9 @@ val koinModule = module {
         val apodApi = get<NetworkService>()
         val apodDatabase = get<ApodDatabase>()
         ApodRepository(apodApi.apodApi, apodDatabase.apodDao()) as IApodRepository
+    }
+
+    viewModel {
+        ApodViewModel(get())
     }
 }

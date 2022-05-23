@@ -93,4 +93,9 @@ dependencies {
     def room_version = "2.4.2"
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
+
+    //navigation https://developer.android.com/guide/navigation?gclid=CjwKCAjw4ayUBhA4EiwATWyBriJHwyFLOCx227_w6k-UOz8fuSzw9HmCzY4o_EKcyCJSvxrd-EOsbhoCDbEQAvD_BwE&gclsrc=aw.ds
+    def nav_version = "2.4.2"
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 }
