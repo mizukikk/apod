@@ -7,5 +7,5 @@ import retrofit2.http.GET
 
 interface ApodService {
     @GET("apod.json")
-    suspend fun getApodList(): Deferred<Response<List<Apod>>>
+    fun getApodList(): Deferred<Response<List<Apod>>>
 }

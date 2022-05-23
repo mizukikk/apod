@@ -16,6 +16,33 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    flavorDimensions "default"
+
+    productFlavors {
+        mock {
+            applicationId 'com.example.apod.mock'
+            resValue 'string', 'app_name', 'DevApod'
+        }
+        prod {
+            applicationId 'com.example.apod'
+            resValue 'string', 'app_name', 'Apod'
+        }
+    }
+
+    sourceSets {
+        String sharedTestDir = 'src/sharedTest/java'
+        String fakeJsonDir = 'src/sharedTest/fakejson'
+        test {
+            java.srcDir sharedTestDir
+            resources.srcDirs += fakeJsonDir
+        }
+        androidTest {
+            java.srcDir sharedTestDir
+            resources.srcDirs += fakeJsonDir
+        }
+    }
+
+
     buildTypes {
         release {
             minifyEnabled false
