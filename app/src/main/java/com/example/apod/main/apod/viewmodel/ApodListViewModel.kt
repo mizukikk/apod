@@ -23,13 +23,14 @@ class ApodListViewModel(private val apodRepository: IApodRepository) : ViewModel
     private var isLoadNext = false
 
     fun loadFirstApodList(type: ApodPageAdapter.Type) {
-        viewModelScope.launch {
-            if (apodRepository.isApodDataExist()) {
-                loadApodList(0, type)
-            } else {
-                fetchApodList(type)
+        if (apodListLiveData.value == null)
+            viewModelScope.launch {
+                if (apodRepository.isApodDataExist()) {
+                    loadApodList(0, type)
+                } else {
+                    fetchApodList(type)
+                }
             }
-        }
     }
 
     private suspend fun loadApodList(lastId: Int, type: ApodPageAdapter.Type) {

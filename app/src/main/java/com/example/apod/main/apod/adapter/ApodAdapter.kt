@@ -10,6 +10,7 @@ import com.example.apod.base.BaseAdapter
 import com.example.apod.base.BaseViewHolder
 import com.example.apod.databinding.ItemApodBinding
 import com.example.apod.db.entity.ApodEntity
+import com.example.apod.main.apod.data.ApodDetailArgs
 
 class ApodAdapter : BaseAdapter<ApodAdapter.ApodHolder>() {
 
@@ -46,7 +47,7 @@ class ApodAdapter : BaseAdapter<ApodAdapter.ApodHolder>() {
     }
 
     interface AdapterListener {
-        fun openApodDetail(apodEntity: ApodEntity)
+        fun openApodDetail(args: ApodDetailArgs)
         fun toggleFavorite(apodEntity: ApodEntity)
     }
 
@@ -74,7 +75,7 @@ class ApodAdapter : BaseAdapter<ApodAdapter.ApodHolder>() {
             }
             binding.ivApod.setOnClickListener {
                 if (itemClickable) {
-                    listener?.openApodDetail(data)
+                    listener?.openApodDetail(ApodDetailArgs(data))
                 }
             }
         }

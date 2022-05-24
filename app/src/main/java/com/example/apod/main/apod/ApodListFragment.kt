@@ -2,12 +2,14 @@ package com.example.apod.main.apod
 
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import com.example.apod.R
 import com.example.apod.base.BaseFragment
 import com.example.apod.component.layoutmanager.OverScrollGridLayoutManager
 import com.example.apod.databinding.FragmentApodListBinding
 import com.example.apod.db.entity.ApodEntity
 import com.example.apod.main.apod.adapter.ApodAdapter
+import com.example.apod.main.apod.data.ApodDetailArgs
 import com.example.apod.main.apod.data.ApodListArgs
 import com.example.apod.main.apod.viewmodel.ApodListViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -52,9 +54,10 @@ class ApodListFragment : BaseFragment<FragmentApodListBinding>(R.layout.fragment
                         viewModel.loadNextApodList(apodAdapter.lastId, args.type)
                 }
         }
-        apodAdapter.setAdapterListener(object :ApodAdapter.AdapterListener{
-            override fun openApodDetail(apodEntity: ApodEntity) {
-
+        apodAdapter.setAdapterListener(object : ApodAdapter.AdapterListener {
+            override fun openApodDetail(args: ApodDetailArgs) {
+                val navCon =
+                ApodDetailFragment.naviTo(findNavController(),args)
             }
 
             override fun toggleFavorite(apodEntity: ApodEntity) {

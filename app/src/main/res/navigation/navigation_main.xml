@@ -10,7 +10,11 @@
         android:id="@+id/apodFragment"
         android:name="com.example.apod.main.apod.ApodFragment"
         android:label="ApodFragment"
-        tools:layout="@layout/fragment_apod">
+        tools:layout="@layout/fragment_apod" />
 
-    </fragment>
+    <fragment
+        android:id="@+id/apodDetailFragment"
+        android:name="com.example.apod.main.apod.ApodDetailFragment"
+        android:label="ApodDetailFragment"
+        tools:layout="@layout/fragment_apod_detail" />
 </navigation>
