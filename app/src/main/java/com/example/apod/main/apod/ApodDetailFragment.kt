@@ -3,6 +3,7 @@ package com.example.apod.main.apod
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.view.View
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -56,6 +57,7 @@ class ApodDetailFragment : BaseFragment<FragmentApodDetailBinding>(R.layout.frag
         }
         binding.tvTitle.text = args.apodEntity.title
         binding.tvDescription.text = args.apodEntity.description
+        binding.tvDescription.movementMethod = ScrollingMovementMethod()
         binding.tvCopyright.text = args.apodEntity.copyright
         binding.tvDate.text = args.apodEntity.date
     }
