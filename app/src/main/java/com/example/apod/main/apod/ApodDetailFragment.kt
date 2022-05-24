@@ -5,11 +5,13 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import coil.load
 import com.example.apod.R
 import com.example.apod.base.BaseFragment
 import com.example.apod.databinding.FragmentApodDetailBinding
 import com.example.apod.main.apod.data.ApodDetailArgs
+import com.example.apod.main.apod.data.ApodPhotoArgs
 
 class ApodDetailFragment : BaseFragment<FragmentApodDetailBinding>(R.layout.fragment_apod_detail) {
 
@@ -38,6 +40,13 @@ class ApodDetailFragment : BaseFragment<FragmentApodDetailBinding>(R.layout.frag
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
+        setListener()
+    }
+
+    private fun setListener() {
+        binding.ivApod.setOnClickListener {
+            ApodPhotoFragment.naviTo(findNavController(), ApodPhotoArgs(args.apodEntity.hdUrl))
+        }
     }
 
     private fun initView() {

@@ -17,4 +17,10 @@
         android:name="com.example.apod.main.apod.ApodDetailFragment"
         android:label="ApodDetailFragment"
         tools:layout="@layout/fragment_apod_detail" />
+
+    <fragment
+        android:id="@+id/apodPhotoFragment"
+        android:name="com.example.apod.main.apod.ApodPhotoFragment"
+        android:label="ApodPhotoFragment"
+        tools:layout="@layout/fragment_apod_photo" />
 </navigation>

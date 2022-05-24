@@ -56,8 +56,7 @@ class ApodListFragment : BaseFragment<FragmentApodListBinding>(R.layout.fragment
         }
         apodAdapter.setAdapterListener(object : ApodAdapter.AdapterListener {
             override fun openApodDetail(args: ApodDetailArgs) {
-                val navCon =
-                ApodDetailFragment.naviTo(findNavController(),args)
+                ApodDetailFragment.naviTo(findNavController(), args)
             }
 
             override fun toggleFavorite(apodEntity: ApodEntity) {
