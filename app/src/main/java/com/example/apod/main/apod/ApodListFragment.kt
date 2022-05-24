@@ -70,7 +70,7 @@ class ApodListFragment : BaseFragment<FragmentApodListBinding>(R.layout.fragment
             }
 
             override fun toggleFavorite(apodEntity: ApodEntity) {
-                viewModel.toggleFavorite(apodEntity)
+                viewModel.toggleFavorite(apodEntity, args.type, apodAdapter.itemCount)
                 shareViewModel.updateTabCount(args.type)
                 shareViewModel.notifyApodListUpdateLiveData.value = args.type
             }

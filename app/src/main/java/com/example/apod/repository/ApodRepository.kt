@@ -49,7 +49,7 @@ class ApodRepository(
 
     override suspend fun toggleFavorite(apodEntity: ApodEntity) =
         apodDao.toggleFavorite(
-            if (apodEntity.favorite) 1 else 0,
+            if (apodEntity.favorite) 0 else 1,
             apodEntity._id!!
         )
 

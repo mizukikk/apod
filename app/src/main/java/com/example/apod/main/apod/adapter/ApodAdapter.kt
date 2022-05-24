@@ -69,14 +69,7 @@ class ApodAdapter(private val type: ApodPageAdapter.Type) : BaseAdapter<ApodAdap
             binding.ivFavorite.setOnClickListener {
                 if (itemClickable) {
                     val data = apodList[adapterPosition]
-                    data.favorite = data.favorite.not()
                     listener?.toggleFavorite(data)
-                    when (type) {
-                        ApodPageAdapter.Type.All ->
-                            notifyItemChanged(adapterPosition)
-                        ApodPageAdapter.Type.Favorite ->
-                            removeFavoriteItem()
-                    }
                 }
             }
             binding.ivApod.setOnClickListener {
@@ -85,13 +78,6 @@ class ApodAdapter(private val type: ApodPageAdapter.Type) : BaseAdapter<ApodAdap
                     listener?.openApodDetail(ApodDetailArgs(data))
                 }
             }
-        }
-
-        private fun removeFavoriteItem() {
-            val newList = mutableListOf<ApodEntity>()
-            newList.addAll(apodList)
-            newList.removeAt(adapterPosition)
-            swapData(newList)
         }
 
         private fun setState(data: ApodEntity) {

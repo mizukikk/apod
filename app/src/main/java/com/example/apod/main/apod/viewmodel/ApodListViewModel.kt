@@ -108,9 +108,10 @@ class ApodListViewModel(private val apodRepository: IApodRepository) : ViewModel
         }
     }
 
-    fun toggleFavorite(apodEntity: ApodEntity) {
+    fun toggleFavorite(apodEntity: ApodEntity, type: ApodPageAdapter.Type, itemCount: Int) {
         viewModelScope.launch {
             apodRepository.toggleFavorite(apodEntity)
+            refreshApodList(type, itemCount)
         }
     }
 
