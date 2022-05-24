@@ -12,7 +12,7 @@ import com.example.apod.databinding.ItemApodBinding
 import com.example.apod.db.entity.ApodEntity
 import com.example.apod.main.apod.data.ApodDetailArgs
 
-class ApodAdapter : BaseAdapter<ApodAdapter.ApodHolder>() {
+class ApodAdapter(private val type: ApodPageAdapter.Type) : BaseAdapter<ApodAdapter.ApodHolder>() {
 
     private var listener: AdapterListener? = null
     private var apodList = listOf<ApodEntity>()
@@ -70,7 +70,12 @@ class ApodAdapter : BaseAdapter<ApodAdapter.ApodHolder>() {
                 if (itemClickable) {
                     data.favorite = data.favorite.not()
                     listener?.toggleFavorite(data)
-                    notifyItemChanged(adapterPosition)
+                    when (type) {
+                        ApodPageAdapter.Type.All ->
+                            notifyItemChanged(adapterPosition)
+                        ApodPageAdapter.Type.Favorite ->
+                            removeFavoriteItem()
+                    }
                 }
             }
             binding.ivApod.setOnClickListener {
@@ -78,6 +83,13 @@ class ApodAdapter : BaseAdapter<ApodAdapter.ApodHolder>() {
                     listener?.openApodDetail(ApodDetailArgs(data))
                 }
             }
+        }
+
+        private fun removeFavoriteItem() {
+            val newList = mutableListOf<ApodEntity>()
+            newList.addAll(apodList)
+            newList.removeAt(adapterPosition)
+            swapData(newList)
         }
 
         private fun setState(data: ApodEntity) {

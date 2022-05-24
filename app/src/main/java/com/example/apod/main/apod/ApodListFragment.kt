@@ -27,7 +27,7 @@ class ApodListFragment : BaseFragment<FragmentApodListBinding>(R.layout.fragment
 
     private lateinit var args: ApodListArgs
     private val viewModel by viewModel<ApodListViewModel>()
-    private val apodAdapter by lazy { ApodAdapter() }
+    private val apodAdapter by lazy { ApodAdapter(args.type) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
