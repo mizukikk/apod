@@ -59,7 +59,7 @@ class ApodPhotoFragment : BaseFragment<FragmentApodPhotoBinding>(R.layout.fragme
 
     private fun showSystemBar() {
         activity?.window?.let { window ->
-            WindowCompat.setDecorFitsSystemWindows(window, false)
+            WindowCompat.setDecorFitsSystemWindows(window, true)
             WindowInsetsControllerCompat(window, window.decorView).let { controller ->
                 controller.show(WindowInsetsCompat.Type.navigationBars())
                 controller.show(WindowInsetsCompat.Type.statusBars())
