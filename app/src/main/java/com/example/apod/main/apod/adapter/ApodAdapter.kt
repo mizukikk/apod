@@ -4,15 +4,24 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import coil.load
+import coil.size.Size
 import com.example.apod.base.BaseAdapter
 import com.example.apod.base.BaseViewHolder
 import com.example.apod.databinding.ItemApodBinding
 import com.example.apod.db.entity.ApodEntity
+import java.lang.Exception
 
 class ApodAdapter : BaseAdapter<ApodAdapter.ApodHolder>() {
 
-    protected var apodList = listOf<ApodEntity>()
+    private var apodList = listOf<ApodEntity>()
+    val lastId
+        get() = try {
+            apodList.last()._id!!
+        } catch (e: NoSuchElementException) {
+            -1
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ApodHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -25,8 +34,10 @@ class ApodAdapter : BaseAdapter<ApodAdapter.ApodHolder>() {
     }
 
     fun swapData(apodList: List<ApodEntity>) {
+        val diffCall = ApodDiffCall(this.apodList, apodList)
+        val result = DiffUtil.calculateDiff(diffCall)
+        result.dispatchUpdatesTo(this)
         this.apodList = apodList
-        notifyDataSetChanged()
     }
 
     override fun getItemCount() = apodList.size
@@ -40,6 +51,7 @@ class ApodAdapter : BaseAdapter<ApodAdapter.ApodHolder>() {
 
         private fun setData(data: ApodEntity) {
             binding.ivApod.load(data.url) {
+                crossfade(true)
                 placeholder(ColorDrawable(Color.LTGRAY))
             }
         }

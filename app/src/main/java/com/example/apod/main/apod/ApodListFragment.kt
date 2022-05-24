@@ -41,16 +41,19 @@ class ApodListFragment : BaseFragment<FragmentApodListBinding>(R.layout.fragment
         initView()
         initViewModel()
         setListener()
-        viewModel.getApodList()
+        viewModel.loadFirstApodList(args.type)
     }
 
     private fun setListener() {
         binding.rvApod.layoutManager.let { lm ->
             if (lm is OverScrollGridLayoutManager)
                 lm.setOverScrollListener { overScrollBottom ->
-
-
+                    if (overScrollBottom)
+                        viewModel.loadNextApodList(apodAdapter.lastId, args.type)
                 }
+        }
+        binding.refreshApod.setOnRefreshListener {
+            viewModel.refreshApodList(args.type, apodAdapter.itemCount)
         }
     }
 
@@ -68,6 +71,8 @@ class ApodListFragment : BaseFragment<FragmentApodListBinding>(R.layout.fragment
                 parentActivity?.dismissProgress()
         }
         viewModel.apodListLiveData.observe(viewLifecycleOwner) {
+            if (binding.refreshApod.isRefreshing)
+                binding.refreshApod.isRefreshing = false
             apodAdapter.swapData(it)
         }
     }

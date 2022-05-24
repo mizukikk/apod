@@ -10,8 +10,11 @@ interface ApodDao {
     @Insert
     suspend fun insertAll(vararg apodEntities: ApodEntity)
 
-    @Query("SELECT * FROM apod WHERE _id > :id LIMIT :limit")
-    suspend fun getApodList(id: Int, limit: Int = 20): List<ApodEntity>
+    @Query("SELECT * FROM apod WHERE _id > :lastId LIMIT :limit")
+    suspend fun getApodList(lastId: Int, limit: Int = 20): List<ApodEntity>
+
+    @Query("SELECT * FROM apod WHERE _id > :lastId AND favorite == 1 LIMIT :limit")
+    suspend fun getFavoriteApodList(lastId: Int, limit: Int = 20): List<ApodEntity>
 
     @Query("SELECT * FROM apod LIMIT 1")
     suspend fun getFirstApodList(): ApodEntity?

@@ -13,6 +13,7 @@ interface IApodRepository {
     suspend fun isApodDataExist(): Boolean
     suspend fun insertApodList(vararg apodEntities: ApodEntity)
     suspend fun getApodList(lastId: Int, limit: Int): List<ApodEntity>
+    suspend fun getFavoriteApodList(lastId: Int, limit: Int): List<ApodEntity>
 }
 
 class ApodRepository(
@@ -39,4 +40,7 @@ class ApodRepository(
 
     override suspend fun getApodList(lastId: Int, limit: Int) =
         apodDao.getApodList(lastId, limit)
+
+    override suspend fun getFavoriteApodList(lastId: Int, limit: Int) =
+        apodDao.getFavoriteApodList(lastId, limit)
 }
