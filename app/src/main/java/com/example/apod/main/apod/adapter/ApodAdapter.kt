@@ -6,15 +6,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import coil.load
-import coil.size.Size
 import com.example.apod.base.BaseAdapter
 import com.example.apod.base.BaseViewHolder
 import com.example.apod.databinding.ItemApodBinding
 import com.example.apod.db.entity.ApodEntity
-import java.lang.Exception
 
 class ApodAdapter : BaseAdapter<ApodAdapter.ApodHolder>() {
 
+    private var listener: AdapterListener? = null
     private var apodList = listOf<ApodEntity>()
     val lastId
         get() = try {
@@ -42,6 +41,15 @@ class ApodAdapter : BaseAdapter<ApodAdapter.ApodHolder>() {
 
     override fun getItemCount() = apodList.size
 
+    fun setAdapterListener(listener: AdapterListener) {
+        this.listener = listener
+    }
+
+    interface AdapterListener {
+        fun openApodDetail(apodEntity: ApodEntity)
+        fun toggleFavorite(apodEntity: ApodEntity)
+    }
+
     inner class ApodHolder(binding: ItemApodBinding) : BaseViewHolder<ItemApodBinding>(binding) {
         fun bindData(data: ApodEntity) {
             setState(data)
@@ -58,10 +66,16 @@ class ApodAdapter : BaseAdapter<ApodAdapter.ApodHolder>() {
 
         private fun setListener(data: ApodEntity) {
             binding.ivFavorite.setOnClickListener {
-
+                if (itemClickable) {
+                    data.favorite = data.favorite.not()
+                    listener?.toggleFavorite(data)
+                    notifyItemChanged(adapterPosition)
+                }
             }
             binding.ivApod.setOnClickListener {
-
+                if (itemClickable) {
+                    listener?.openApodDetail(data)
+                }
             }
         }
 

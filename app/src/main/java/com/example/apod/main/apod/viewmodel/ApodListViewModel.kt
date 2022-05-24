@@ -106,4 +106,10 @@ class ApodListViewModel(private val apodRepository: IApodRepository) : ViewModel
         }
     }
 
+    fun toggleFavorite(apodEntity: ApodEntity) {
+        viewModelScope.launch {
+            apodRepository.toggleFavorite(apodEntity)
+        }
+    }
+
 }

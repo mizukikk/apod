@@ -3,6 +3,7 @@ package com.example.apod.db.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import com.example.apod.db.entity.ApodEntity
 
 @Dao
@@ -18,4 +19,7 @@ interface ApodDao {
 
     @Query("SELECT * FROM apod LIMIT 1")
     suspend fun getFirstApodList(): ApodEntity?
+
+    @Update
+    suspend fun toggleFavorite(entity: ApodEntity)
 }

@@ -1,12 +1,12 @@
 package com.example.apod.main.apod
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import com.example.apod.R
 import com.example.apod.base.BaseFragment
 import com.example.apod.component.layoutmanager.OverScrollGridLayoutManager
 import com.example.apod.databinding.FragmentApodListBinding
+import com.example.apod.db.entity.ApodEntity
 import com.example.apod.main.apod.adapter.ApodAdapter
 import com.example.apod.main.apod.data.ApodListArgs
 import com.example.apod.main.apod.viewmodel.ApodListViewModel
@@ -52,6 +52,15 @@ class ApodListFragment : BaseFragment<FragmentApodListBinding>(R.layout.fragment
                         viewModel.loadNextApodList(apodAdapter.lastId, args.type)
                 }
         }
+        apodAdapter.setAdapterListener(object :ApodAdapter.AdapterListener{
+            override fun openApodDetail(apodEntity: ApodEntity) {
+
+            }
+
+            override fun toggleFavorite(apodEntity: ApodEntity) {
+                viewModel.toggleFavorite(apodEntity)
+            }
+        })
         binding.refreshApod.setOnRefreshListener {
             viewModel.refreshApodList(args.type, apodAdapter.itemCount)
         }

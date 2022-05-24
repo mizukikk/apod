@@ -19,7 +19,7 @@ data class ApodEntity(
     val mediaType: String,
     val title: String,
     val url: String,
-    val favorite: Boolean = false,
+    var favorite: Boolean = false,
     @PrimaryKey(autoGenerate = true)
     val _id: Int? = null,
 ) {
