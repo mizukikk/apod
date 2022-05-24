@@ -27,7 +27,9 @@ val koinModule = module {
             ApodApplication.appContext,
             ApodDatabase::class.java,
             ApodDatabase.DB_NAME
-        ).build()
+        )
+            .addMigrations(ApodDatabase.MIGRATION_1_2)
+            .build()
     }
 
     //repository

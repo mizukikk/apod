@@ -11,12 +11,18 @@ import kotlinx.coroutines.launch
 
 class ApodListViewModel(private val apodRepository: IApodRepository) : ViewModel() {
 
+    companion object {
+        private const val PAGINATION_COUNT = 30
+    }
+
     val apodListLiveData = MutableLiveData<List<ApodEntity>>()
     val progressEvent = SingleLiveEvent<Boolean>()
+
     fun getApodList() {
         viewModelScope.launch {
             if (apodRepository.isApodDataExist()) {
-
+                val apodList = apodRepository.getApodList(0, PAGINATION_COUNT)
+                postApodList(apodList)
             } else {
                 fetchApodList()
             }
@@ -35,8 +41,6 @@ class ApodListViewModel(private val apodRepository: IApodRepository) : ViewModel
                         }
                     apodRepository.insertApodList(*apodList.toTypedArray())
                     postApodList(apodList.take(20))
-                } else {
-
                 }
                 progressEvent.value = false
             }

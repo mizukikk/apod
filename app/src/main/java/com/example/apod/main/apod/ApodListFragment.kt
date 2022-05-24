@@ -1,10 +1,13 @@
 package com.example.apod.main.apod
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import com.example.apod.R
 import com.example.apod.base.BaseFragment
+import com.example.apod.component.layoutmanager.OverScrollGridLayoutManager
 import com.example.apod.databinding.FragmentApodListBinding
+import com.example.apod.main.apod.adapter.ApodAdapter
 import com.example.apod.main.apod.data.ApodListArgs
 import com.example.apod.main.apod.viewmodel.ApodListViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -22,6 +25,7 @@ class ApodListFragment : BaseFragment<FragmentApodListBinding>(R.layout.fragment
 
     private lateinit var args: ApodListArgs
     private val viewModel by viewModel<ApodListViewModel>()
+    private val apodAdapter by lazy { ApodAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,8 +38,26 @@ class ApodListFragment : BaseFragment<FragmentApodListBinding>(R.layout.fragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initView()
         initViewModel()
+        setListener()
         viewModel.getApodList()
+    }
+
+    private fun setListener() {
+        binding.rvApod.layoutManager.let { lm ->
+            if (lm is OverScrollGridLayoutManager)
+                lm.setOverScrollListener { overScrollBottom ->
+
+
+                }
+        }
+    }
+
+    private fun initView() {
+        binding.rvApod.adapter = apodAdapter
+        binding.rvApod.layoutManager = OverScrollGridLayoutManager(requireContext(), 3)
+        binding.rvApod.setHasFixedSize(true)
     }
 
     private fun initViewModel() {
@@ -46,7 +68,7 @@ class ApodListFragment : BaseFragment<FragmentApodListBinding>(R.layout.fragment
                 parentActivity?.dismissProgress()
         }
         viewModel.apodListLiveData.observe(viewLifecycleOwner) {
-
+            apodAdapter.swapData(it)
         }
     }
 }
