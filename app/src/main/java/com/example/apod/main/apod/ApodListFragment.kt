@@ -49,6 +49,13 @@ class ApodListFragment : BaseFragment<FragmentApodListBinding>(R.layout.fragment
         viewModel.loadFirstApodList(args.type)
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (binding.refreshApod.isRefreshing) {
+            refreshApodList()
+        }
+    }
+
     private fun setListener() {
         binding.rvApod.layoutManager.let { lm ->
             if (lm is OverScrollGridLayoutManager)
@@ -65,11 +72,16 @@ class ApodListFragment : BaseFragment<FragmentApodListBinding>(R.layout.fragment
             override fun toggleFavorite(apodEntity: ApodEntity) {
                 viewModel.toggleFavorite(apodEntity)
                 shareViewModel.updateTabCount(args.type)
+                shareViewModel.notifyApodListUpdateLiveData.value = args.type
             }
         })
         binding.refreshApod.setOnRefreshListener {
-            viewModel.refreshApodList(args.type, apodAdapter.itemCount)
+            refreshApodList()
         }
+    }
+
+    private fun refreshApodList() {
+        viewModel.refreshApodList(args.type, apodAdapter.itemCount)
     }
 
     private fun initView() {
@@ -90,6 +102,10 @@ class ApodListFragment : BaseFragment<FragmentApodListBinding>(R.layout.fragment
                 binding.refreshApod.isRefreshing = false
             shareViewModel.updateTabCount(args.type)
             apodAdapter.swapData(it)
+        }
+        shareViewModel.notifyApodListUpdateLiveData.observe(viewLifecycleOwner) { currentType ->
+            if (args.type != currentType && binding.refreshApod.isRefreshing.not())
+                binding.refreshApod.isRefreshing = true
         }
     }
 }
