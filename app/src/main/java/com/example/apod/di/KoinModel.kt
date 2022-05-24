@@ -4,7 +4,7 @@ import androidx.room.Room
 import com.example.apod.BuildConfig
 import com.example.apod.api.NetworkService
 import com.example.apod.db.ApodDatabase
-import com.example.apod.main.apod.viewmodel.ApodViewModel
+import com.example.apod.main.apod.viewmodel.ApodListViewModel
 import com.example.apod.repository.ApodRepository
 import com.example.apod.repository.IApodRepository
 import okhttp3.logging.HttpLoggingInterceptor
@@ -26,7 +26,7 @@ val koinModule = module {
         Room.databaseBuilder(
             ApodApplication.appContext,
             ApodDatabase::class.java,
-            ApodDatabase.MLTD_DB_NAME
+            ApodDatabase.DB_NAME
         ).build()
     }
 
@@ -38,6 +38,6 @@ val koinModule = module {
     }
 
     viewModel {
-        ApodViewModel(get())
+        ApodListViewModel(get())
     }
 }

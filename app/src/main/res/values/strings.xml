@@ -1,2 +1,9 @@
 <resources>
+
+    <!--  Fragment  -->
+    <string name="f_apod_all_pic">所有照片</string>
+    <string name="f_apod_favorite_pic">我的最愛</string>
+
+    <!--  Dialog  -->
+    <string name="d_message_loading">loading...</string>
 </resources>

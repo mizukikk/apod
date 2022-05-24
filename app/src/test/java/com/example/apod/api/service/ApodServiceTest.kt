@@ -1,26 +1,25 @@
-package com.example.apod.repository
+package com.example.apod.api.service
 
 import TestFileUtils
-import com.example.apod.api.HttpResult
 import com.example.apod.api.MockInterceptor
 import com.example.apod.api.MockResponse
 import com.example.apod.api.NetworkService
 import junit.framework.TestCase
 import kotlinx.coroutines.runBlocking
 
-class ApodRepositoryTest : TestCase() {
+class ApodServiceTest : TestCase() {
 
     private lateinit var mockInterceptor: MockInterceptor
     private lateinit var networkService: NetworkService
-    private lateinit var apodRepository: IApodRepository
+    private lateinit var apodapi :ApodService
 
     override fun setUp() {
         mockInterceptor = MockInterceptor()
         networkService = NetworkService(mockInterceptor)
-        apodRepository = ApodRepository(networkService.apodApi)
+        apodapi = networkService.apodApi
     }
 
-    fun testGetApodList() {
+    fun testFetchApodList() {
         mockInterceptor.setListener(object : MockInterceptor.MockInterceptorListener {
             override fun setApiResponse(url: String): MockResponse {
                 val state = 200
@@ -30,10 +29,10 @@ class ApodRepositoryTest : TestCase() {
         })
 
         val result = runBlocking {
-            apodRepository.getApodList() as HttpResult.Success
+             apodapi.fetchApodList().await()
         }
-        assertTrue(result.response.isSuccessful)
-        val response = result.response.body()!!
+        assertTrue(result.isSuccessful)
+        val response = result.body()!!
         assertEquals(1, response.size)
         assertEquals(
             "The past year was extraordinary for the discovery of extraterrestrial fountains and flows -- some offering new potential in the search for liquid water and the origin of life beyond planet Earth.. Increased evidence was uncovered that fountains spurt not only from Saturn's moon Enceladus, but from the dunes of Mars as well. Lakes were found on Saturn's moon Titan, and the residual of a flowing liquid was discovered on the walls of Martian craters. The diverse Solar System fluidity may involve forms of slushy water-ice, methane, or sublimating carbon dioxide. Pictured above, the light-colored path below the image center is hypothesized to have been created sometime in just the past few years by liquid water flowing across the surface of Mars.",
@@ -46,5 +45,4 @@ class ApodRepositoryTest : TestCase() {
         assertEquals("image", response[0].mediaType)
         assertEquals("https://apod.nasa.gov/apod/image/0612/flow_mgs_big.jpg", response[0].hdurl)
     }
-
 }

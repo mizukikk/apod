@@ -1,13 +1,15 @@
 package com.example.apod.di
 
 import android.app.Application
+import androidx.annotation.StringRes
 import org.koin.core.context.startKoin
 
-class ApodApplication:Application() {
+class ApodApplication : Application() {
 
-    companion object{
+    companion object {
         private var INSTANCE: Application? = null
         val appContext get() = INSTANCE!!.applicationContext
+        fun getString(@StringRes id: Int) = appContext.getString(id)
     }
 
     override fun onCreate() {

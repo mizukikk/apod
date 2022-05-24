@@ -8,11 +8,11 @@ import com.example.apod.db.entity.ApodEntity
 @Dao
 interface ApodDao {
     @Insert
-    fun insertAll(vararg apodEntities: ApodEntity)
+    suspend fun insertAll(vararg apodEntities: ApodEntity)
 
-    @Query("SELECT * FROM apod WHERE _id >= :id LIMIT :limit")
-    fun getApodList(id: Int, limit: Int = 20): List<ApodEntity>
+    @Query("SELECT * FROM apod WHERE _id > :id LIMIT :limit")
+    suspend fun getApodList(id: Int, limit: Int = 20): List<ApodEntity>
 
     @Query("SELECT * FROM apod LIMIT 1")
-    fun getFirstApodList(): ApodEntity?
+    suspend fun getFirstApodList(): ApodEntity?
 }

@@ -6,12 +6,12 @@ import com.example.apod.api.obj.Apod
 
 @Entity(tableName = "apod")
 data class ApodEntity(
-    val apod_site: String,
+    val apodSite: String,
     val copyright: String,
     val date: String,
     val description: String,
-    val hdurl: String,
-    val media_type: String,
+    val hdUrl: String,
+    val mediaType: String,
     val title: String,
     val url: String,
     @PrimaryKey(autoGenerate = true)

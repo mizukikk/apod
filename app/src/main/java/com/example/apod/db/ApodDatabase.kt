@@ -15,6 +15,6 @@ abstract class ApodDatabase : RoomDatabase() {
     abstract fun apodDao(): ApodDao
 
     companion object {
-        const val MLTD_DB_NAME = "mltdSup.db"
+        const val DB_NAME = "apod.db"
     }
 }

@@ -9,7 +9,8 @@ import retrofit2.Response
 import java.lang.Exception
 
 interface IApodRepository {
-    suspend fun getApodList(): HttpResult<Response<List<Apod>>>
+    suspend fun fetchApodList(): HttpResult<Response<List<Apod>>>
+    suspend fun isApodDataExist(): Boolean
     suspend fun insertApodList(vararg apodEntities: ApodEntity)
 }
 
@@ -18,14 +19,17 @@ class ApodRepository(
     private val apodDao: ApodDao
 ) : IApodRepository {
 
-    override suspend fun getApodList(): HttpResult<Response<List<Apod>>> {
+    override suspend fun fetchApodList(): HttpResult<Response<List<Apod>>> {
         return try {
-            val response = apodApi.getApodList().await()
+            val response = apodApi.fetchApodList().await()
             HttpResult.Success(response)
         } catch (e: Exception) {
             HttpResult.Error(e)
         }
     }
+
+    override suspend fun isApodDataExist() =
+        apodDao.getFirstApodList() != null
 
     override suspend fun insertApodList(vararg apodEntities: ApodEntity) {
         apodDao.insertAll(*apodEntities)
