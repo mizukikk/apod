@@ -55,7 +55,7 @@ class ApodAdapter(private val type: ApodPageAdapter.Type) : BaseAdapter<ApodAdap
         fun bindData(data: ApodEntity) {
             setState(data)
             setData(data)
-            setListener(data)
+            setListener()
         }
 
         private fun setData(data: ApodEntity) {
@@ -65,9 +65,10 @@ class ApodAdapter(private val type: ApodPageAdapter.Type) : BaseAdapter<ApodAdap
             }
         }
 
-        private fun setListener(data: ApodEntity) {
+        private fun setListener() {
             binding.ivFavorite.setOnClickListener {
                 if (itemClickable) {
+                    val data = apodList[adapterPosition]
                     data.favorite = data.favorite.not()
                     listener?.toggleFavorite(data)
                     when (type) {
@@ -80,6 +81,7 @@ class ApodAdapter(private val type: ApodPageAdapter.Type) : BaseAdapter<ApodAdap
             }
             binding.ivApod.setOnClickListener {
                 if (itemClickable) {
+                    val data = apodList[adapterPosition]
                     listener?.openApodDetail(ApodDetailArgs(data))
                 }
             }

@@ -45,11 +45,12 @@ class ApodListViewModel(private val apodRepository: IApodRepository) : ViewModel
 
     fun refreshApodList(type: ApodPageAdapter.Type, itemCount: Int) {
         viewModelScope.launch {
+            val limit = if (itemCount <= PAGINATION_COUNT) PAGINATION_COUNT else itemCount
             val apodList = when (type) {
                 ApodPageAdapter.Type.All ->
-                    apodRepository.getApodList(0, itemCount)
+                    apodRepository.getApodList(0, limit)
                 ApodPageAdapter.Type.Favorite ->
-                    apodRepository.getFavoriteApodList(0, PAGINATION_COUNT)
+                    apodRepository.getFavoriteApodList(0, limit)
             }
             apodListLiveData.value = apodList
         }
