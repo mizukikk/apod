@@ -8,10 +8,12 @@ import com.example.apod.base.BaseFragment
 import com.example.apod.component.layoutmanager.OverScrollGridLayoutManager
 import com.example.apod.databinding.FragmentApodListBinding
 import com.example.apod.db.entity.ApodEntity
+import com.example.apod.main.MainShareViewModel
 import com.example.apod.main.apod.adapter.ApodAdapter
 import com.example.apod.main.apod.data.ApodDetailArgs
 import com.example.apod.main.apod.data.ApodListArgs
 import com.example.apod.main.apod.viewmodel.ApodListViewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ApodListFragment : BaseFragment<FragmentApodListBinding>(R.layout.fragment_apod_list) {
@@ -27,6 +29,7 @@ class ApodListFragment : BaseFragment<FragmentApodListBinding>(R.layout.fragment
 
     private lateinit var args: ApodListArgs
     private val viewModel by viewModel<ApodListViewModel>()
+    private val shareViewModel by sharedViewModel<MainShareViewModel>()
     private val apodAdapter by lazy { ApodAdapter(args.type) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,6 +64,7 @@ class ApodListFragment : BaseFragment<FragmentApodListBinding>(R.layout.fragment
 
             override fun toggleFavorite(apodEntity: ApodEntity) {
                 viewModel.toggleFavorite(apodEntity)
+                shareViewModel.updateTabCount(args.type)
             }
         })
         binding.refreshApod.setOnRefreshListener {
@@ -84,6 +88,7 @@ class ApodListFragment : BaseFragment<FragmentApodListBinding>(R.layout.fragment
         viewModel.apodListLiveData.observe(viewLifecycleOwner) {
             if (binding.refreshApod.isRefreshing)
                 binding.refreshApod.isRefreshing = false
+            shareViewModel.updateTabCount(args.type)
             apodAdapter.swapData(it)
         }
     }

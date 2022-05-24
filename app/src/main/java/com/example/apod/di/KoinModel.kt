@@ -4,6 +4,7 @@ import androidx.room.Room
 import com.example.apod.BuildConfig
 import com.example.apod.api.NetworkService
 import com.example.apod.db.ApodDatabase
+import com.example.apod.main.MainShareViewModel
 import com.example.apod.main.apod.viewmodel.ApodListViewModel
 import com.example.apod.repository.ApodRepository
 import com.example.apod.repository.IApodRepository
@@ -41,5 +42,9 @@ val koinModule = module {
 
     viewModel {
         ApodListViewModel(get())
+    }
+
+    viewModel {
+        MainShareViewModel(get())
     }
 }

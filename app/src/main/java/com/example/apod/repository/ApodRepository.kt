@@ -15,6 +15,8 @@ interface IApodRepository {
     suspend fun getApodList(lastId: Int, limit: Int): List<ApodEntity>
     suspend fun getFavoriteApodList(lastId: Int, limit: Int): List<ApodEntity>
     suspend fun toggleFavorite(apodEntity: ApodEntity)
+    suspend fun allApodCount(): Int
+    suspend fun favoriteApodCount(): Int
 }
 
 class ApodRepository(
@@ -46,5 +48,14 @@ class ApodRepository(
         apodDao.getFavoriteApodList(lastId, limit)
 
     override suspend fun toggleFavorite(apodEntity: ApodEntity) =
-        apodDao.toggleFavorite(apodEntity)
+        apodDao.toggleFavorite(
+            if (apodEntity.favorite) 1 else 0,
+            apodEntity._id!!
+        )
+
+    override suspend fun allApodCount() =
+        apodDao.allApodCount()
+
+    override suspend fun favoriteApodCount() =
+        apodDao.favoriteApodCount()
 }
